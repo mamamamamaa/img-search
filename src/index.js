@@ -1,10 +1,11 @@
 import SimpleLightbox from 'simplelightbox';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import searchData from './js/dataAPI';
+import render from './js/dataCard';
 
 const refs = {
   form: document.querySelector('.search-form'),
-  container: document.querySelector('.container'),
+  container: document.querySelector('.gallery'),
 };
 
 refs.form.addEventListener('submit', e => {
@@ -13,6 +14,6 @@ refs.form.addEventListener('submit', e => {
     if (response.data.total === 0) {
       return Notify.failure('bebtaaaaa');
     }
-    console.log(response);
+    refs.container.innerHTML = render(response.data.hits);
   });
 });
