@@ -25,15 +25,7 @@ export default function (data) {
             </p>
           </div>
         </div>`,
-        ({
-          webformatURL,
-          largeImageURL,
-          tags,
-          likes,
-          views,
-          comments,
-          downloads,
-        } = el)
+        el
       )
     )
     .join('');
