@@ -3,6 +3,13 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.img-link {
+  display: contents;
+  text-decoration: none;
+  color: inherit;
+}
+
 .photo-card {
   display: flex;
   flex-wrap: wrap;
