@@ -10,10 +10,14 @@ const refs = {
 
 refs.form.addEventListener('submit', e => {
   e.preventDefault();
-  searchData(e.target.searchQuery.value).then(response => {
-    if (response.data.total === 0) {
-      return Notify.failure('bebtaaaaa');
-    }
-    refs.container.innerHTML = render(response.data.hits);
-  });
+  searchData(e.target.searchQuery.value)
+    .then(response => {
+      if (response.data.total === 0) {
+        return Notify.failure('bebtaaaaa');
+      }
+      refs.container.innerHTML = render(response.data.hits);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 });
