@@ -1,13 +1,15 @@
 import SimpleLightbox from 'simplelightbox';
+import infinite from 'infinite-scroll';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 import searchData from './js/dataAPI';
 import render from './js/dataCard';
-import infinite from 'infinite-scroll';
 
 const refs = {
   form: document.querySelector('.search-form'),
   container: document.querySelector('.gallery'),
+  loader: document.querySelector('.loader'),
 };
 
 const lightbox = new SimpleLightbox('.img-link', {
@@ -15,27 +17,40 @@ const lightbox = new SimpleLightbox('.img-link', {
   captionDelay: '250',
 });
 
-refs.form.addEventListener('submit', e => {
-  e.preventDefault();
-  searchData(e.target.searchQuery.value)
+async function renderData(value, page) {
+  return await searchData(value, page)
     .then(response => {
       if (response.data.total === 0) {
-        return Notify.failure('bebtaaaaa');
+        return Notify.failure('bebraaaaa');
       }
+
       Notify.info(`Hooray! We found ${response.data.totalHits} images.`);
-      refs.container.innerHTML = render(response.data.hits);
-      lightbox.refresh();
+      refs.container.innerHTML += render(response.data.hits);
+
+      if (response.data.totalHits > 40) {
+        refs.loader.classList.remove('block');
+      } else {
+        refs.loader.classList.add('block');
+      }
     })
     .catch(error => {
       console.log(error);
+    })
+    .finally(() => {
+      lightbox.refresh();
     });
+}
+
+let pageCounter;
+
+refs.form.addEventListener('submit', e => {
+  e.preventDefault();
+  refs.container.innerHTML = '';
+  pageCounter = 1;
+  renderData(e.target.searchQuery.value, pageCounter);
 });
 
-const { height: cardHeight } = document
-  .querySelector('.gallery')
-  .firstElementChild.getBoundingClientRect();
-
-window.scrollBy({
-  top: cardHeight * 2,
-  behavior: 'smooth',
+refs.loader.addEventListener('click', () => {
+  pageCounter += 1;
+  renderData(refs.form.searchQuery.value, pageCounter);
 });
