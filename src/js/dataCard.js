@@ -6,7 +6,7 @@ export default function (data) {
       Mustache.render(
         ` <a href="{{largeImageURL}}" class="img-link">
             <div class="photo-card">
-             <img src="{{webformatURL}}" alt="{{tags}}" loading="lazy" />
+             <img src="{{webformatURL}}" alt="{{tags}}" loading="lazy" height="300"/>
              <div class="info">
              <p class="info-item">
                <b>Likes</b>
