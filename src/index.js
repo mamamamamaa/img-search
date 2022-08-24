@@ -52,7 +52,6 @@ async function fetchData(value, page) {
 }
 
 function handleWindowScroll() {
-  console.log('beeeeeebraaaa');
   const endOfPage =
     window.innerHeight + window.pageYOffset + 300 >= document.body.offsetHeight;
 
